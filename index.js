@@ -1,6 +1,31 @@
 // index.js
 // where your node app starts
 
+const os = require('os');
+const si = require('systeminformation');
+const networkInterfaces = os.networkInterfaces();
+
+
+for (const interfaceName in networkInterfaces) {
+  console.log(`Network Interface: ${interfaceName}`);
+  networkInterfaces[interfaceName].forEach((address, index) => {
+    console.log(`  Address ${index + 1}:`);
+    console.log(`    Family: ${address.family}`);
+    console.log(`    IP Address: ${address.address}`);
+    console.log(`    Internal: ${address.internal}`);
+  });
+  console.log('\n');
+}
+// console.log('Operating System Platform:', os.platform());
+// console.log('Operating System Release:', os.release());
+
+// Get a list of installed software packages
+// console.log(si.system())
+
+
+
+
+
 // init project
 require('dotenv').config();
 var express = require('express');
@@ -21,7 +46,13 @@ app.get('/', function (req, res) {
 
 // your first API endpoint...
 app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+  const acceptLanguageHeader = req.headers['accept-language'];
+
+  const ipAddress = networkInterfaces['lo'][0].address; // Replace 'eth0' with your network interface name
+
+    const userAgent = req.get('User-Agent');
+
+  res.json({ipaddress:ipAddress ,language:acceptLanguageHeader,software:userAgent});
 });
 
 // listen for requests :)
