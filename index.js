@@ -45,7 +45,7 @@ app.get('/', function (req, res) {
 });
 
 // your first API endpoint...
-app.get('/api/hello', function (req, res) {
+app.get('/api/whoami', function (req, res) {
   const acceptLanguageHeader = req.headers['accept-language'];
 
   const ipAddress = networkInterfaces['lo'][0].address; // Replace 'eth0' with your network interface name
